@@ -5,13 +5,18 @@ onMounted(() => {
   store.dispatch('loadAskList')
 })
 
-const users = computed(() => { return store.state.askList })
+const askList = computed(() => {
+  const list = store.state.askList
+  console.log(JSON.stringify(list))
+  return list
+})
 </script>
 
 <template>
   <div>
-    <div v-for="user in users" v-bind:key="user.id">
-      {{ user.title }}
+    <div v-for="ask in askList" v-bind:key="ask.id">
+      <a v-bind:href="ask.url">{{ ask.title }}</a>
+      <small>{{ ask.time_ago }}  {{ ask.user }}</small>
     </div>
   </div>
 </template>

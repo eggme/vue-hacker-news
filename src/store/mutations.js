@@ -7,5 +7,12 @@ const setJobsList = (state, jobsList) => {
 const setAskList = (state, askList) => {
     state.askList = askList
 }
+const setUser = (state, user) => {
+    state.user = user
+}
 
-export default { setNewsList, setJobsList, setAskList }
+const setItem = (state, item) => {
+    state.item = item
+}
+
+export default { setNewsList, setJobsList, setAskList, setUser, setItem }

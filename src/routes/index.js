@@ -25,10 +25,10 @@ export const routes = [
     },
     {
         path: '/item',
-        component: UserView,
+        component: ItemView,
     },
     {
-        path: '/user',
-        component: ItemView,
+        path: '/user', // '/user/:id',
+        component: UserView,
     }
 ]

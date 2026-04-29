@@ -5,13 +5,18 @@ onMounted(() => {
   store.dispatch('loadJobsList')
 })
 
-const users = computed(() => { return store.state.jobsList })
+const jobsList = computed(() => {
+  const list = store.state.jobsList
+  console.log(JSON.stringify(list))
+  return list
+})
 </script>
 
 <template>
   <div>
-    <div v-for="user in users" v-bind:key="user.id">
-      {{ user.title }}
+    <div v-for="job in jobsList" v-bind:key="job.id">
+      <a v-bind:href="job.url">{{ job.title }}</a>
+      <small>{{ job.time_ago }}  {{ job.domain }}</small>
     </div>
   </div>
 </template>
