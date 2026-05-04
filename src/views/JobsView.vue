@@ -1,10 +1,15 @@
 <script setup>
 import { store } from '@/store/store'
 import {computed, onMounted } from "vue";
-onMounted(() => {
-  store.dispatch('loadJobsList')
-})
+import ListItem from "@/components/ListItem.vue";
+import bus from "@/utils/bus";
 
+onMounted(() => {
+  bus.emit('startSpinner')
+  store.dispatch('loadJobsList')
+      .then(() => { bus.emit('endSpinner') })
+})
+const type = 'JOBS'
 const jobsList = computed(() => {
   const list = store.state.jobsList
   console.log(JSON.stringify(list))
@@ -14,10 +19,7 @@ const jobsList = computed(() => {
 
 <template>
   <div>
-    <div v-for="job in jobsList" v-bind:key="job.id">
-      <a v-bind:href="job.url">{{ job.title }}</a>
-      <small>{{ job.time_ago }}  {{ job.domain }}</small>
-    </div>
+    <list-item v-bind:list="jobsList" v-bind:type="type"></list-item>
   </div>
 </template>
 

@@ -4,12 +4,16 @@ import {store} from "@/store/store";
 import {useRoute} from "vue-router";
 import {decodeHTML} from "entities";
 import CommentView from "@/views/CommentView.vue";
+import UserInfo from "@/components/UserInfo.vue";
+import bus from "@/utils/bus";
 
 onMounted(() => {
+  bus.emit('startSpinner')
   const route = useRoute()
   store.dispatch('loadItem', route.query.id)
+      .then(() => { bus.emit('endSpinner') })
 })
-
+const viewType = 'COMMENT'
 const item = computed(() => {
   const itemInfo = store.state.item
   console.log('item =>', JSON.stringify(itemInfo))
@@ -21,13 +25,20 @@ const item = computed(() => {
   <div>
     <section>
       <div>
-        <div class="user-container">
-          <i class="fas fa-user" />
-          <div class="user-description">
-            <router-link v-bind:to="`/user?id=${item.user}`" class="username">{{ item.user }}</router-link>
-            <div>{{ item.time_ago }} | {{ item.comments_count }} comments</div>
-          </div>
-        </div>
+        <user-info v-bind:user="{
+            id:item.user,
+            time_ago: item.time_ago,
+            comments_count: item.comments_count,
+    }"  v-bind:viewType="viewType">
+<!--          <template v-slot:username>-->
+<!--            <router-link v-bind:to="`/user?id=${item.user}`" class="username">{{ item.user }}</router-link>-->
+<!--          </template>-->
+<!--          <template v-slot:time>-->
+<!--            <div class="user-time">-->
+<!--              <span>{{ item.time_ago }} | {{ item.comments_count }} comments</span>-->
+<!--            </div>-->
+<!--          </template>-->
+        </user-info>
         <div class="item-description">
           <h2 class="item-title">{{ item.title }}</h2>
           <div v-html="decodeHTML(item.content || '')"></div>

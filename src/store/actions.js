@@ -1,4 +1,4 @@
-import { fetchAskList, fetchNewsList, fetchJobsList, fetchUser, fetchItem } from '@/api'
+import { fetchAskList, fetchNewsList, fetchJobsList, fetchUser, fetchItem, fetchList } from '@/api'
 
 async function loadNewsList({ state, commit }) {
     if (state.newsList.length === 0) {
@@ -32,10 +32,18 @@ async function loadItem({ commit }, payload) {
     commit('setItem', res.data)
 }
 
+async function loadList({ commit }, type) {
+    console.log('type => ', type)
+    const res = await fetchList(type)
+    console.log('item -> ', JSON.stringify(res.data))
+    commit('setList', res.data)
+}
+
 export default {
     loadNewsList,
     loadJobsList,
     loadAskList,
     loadUser,
     loadItem,
+    loadList,
 }

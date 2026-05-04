@@ -9,6 +9,8 @@ const router = createRouter({
     routes
 })
 
+// App.config.devtools = true
+
 createApp(App)
     .use(router)
     .use(store)

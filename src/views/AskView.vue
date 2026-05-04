@@ -1,10 +1,15 @@
 <script setup>
 import { store } from '@/store/store';
 import { computed, onMounted } from "vue";
-onMounted(() => {
-  store.dispatch('loadAskList')
-})
+import ListItem from "@/components/ListItem.vue";
+import bus from "@/utils/bus";
 
+onMounted(() => {
+  bus.emit('startSpinner')
+  store.dispatch('loadAskList')
+      .then(() => { bus.emit('endSpinner') })
+})
+const type = 'ASK'
 const askList = computed(() => {
   const list = store.state.askList
   console.log(JSON.stringify(list))
@@ -14,10 +19,7 @@ const askList = computed(() => {
 
 <template>
   <div>
-    <div v-for="ask in askList" v-bind:key="ask.id">
-      <a v-bind:href="ask.url">{{ ask.title }}</a>
-      <small>{{ ask.time_ago }}  {{ ask.user }}</small>
-    </div>
+    <list-item v-bind:list="askList" v-bind:type="type"></list-item>
   </div>
 </template>
 

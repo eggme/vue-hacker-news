@@ -1,25 +1,25 @@
 <script setup>
 import { store } from '@/store/store';
-import {computed, onMounted} from "vue";
-
+import {onMounted, computed,} from "vue";
+import ListItem from "@/components/ListItem.vue";
+// import bus from "@/utils/bus";
+// import ListMixIn from '@/composable/useList'
+import { useList } from "@/composable/useList";
+const type = 'NEWS'
+const { load } = useList(type)
 onMounted(() => {
-  store.dispatch('loadNewsList')
+  load()
+  // bus.emit('startSpinner')
+  // store.dispatch('loadNewsList')
+  //     .then(() => { bus.emit('endSpinner') })
 })
 
-const newsList = computed(() => { return store.state.newsList })
+const list = computed(() => { return store.state.list })
 </script>
 
 <template>
   <div>
-    <div v-for="news in newsList" v-bind:key="news.id">
-      <a v-bind:href="news.link">
-        {{ news.title }}
-      </a>
-      <small>
-        {{ news.time_ago }}
-        <router-link v-bind:to="`/user?id=${news.user}`" >{{ news.user }}</router-link>
-      </small>
-    </div>
+    <list-item v-bind:list="list" v-bind:type="type"></list-item>
   </div>
 </template>
 

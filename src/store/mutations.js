@@ -15,4 +15,8 @@ const setItem = (state, item) => {
     state.item = item
 }
 
-export default { setNewsList, setJobsList, setAskList, setUser, setItem }
+const setList = (state, list) => {
+    state.list = list
+}
+
+export default { setNewsList, setJobsList, setAskList, setUser, setItem, setList }

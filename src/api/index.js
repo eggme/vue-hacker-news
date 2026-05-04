@@ -25,10 +25,25 @@ function fetchItem(params) {
     return axios.get(`${config.baseUrl}item/${params}.json`)
 }
 
+function fetchList(params) {
+    switch (params.toUpperCase()) {
+        case 'ASK':
+            return fetchAskList()
+        case 'JOBS':
+            return fetchJobsList()
+        case 'NEWS':
+            return fetchNewsList()
+        default:
+            return []
+    }
+}
+
+
 export {
     fetchAskList,
     fetchJobsList,
     fetchNewsList,
     fetchUser,
     fetchItem,
+    fetchList,
 }
